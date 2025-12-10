@@ -4,9 +4,7 @@ This repository contains all components required to generate synthetic atmospher
 
 The workflow consists of three major stages:
 	1.	Wind Profile Generation
-	
 	2.	Speckle Image Simulation (HCIPy) via Docker
-	
 	3.	Model Training & Evaluation (Multitask CNN) via Docker
 
 Follow the steps below to reproduce the results in our report.
@@ -60,8 +58,8 @@ services:
     command: 'python main.py --wind-file=<path to wind profile file> --max-workers=16'
 
 Set:
-	•	Path to the wind-profile file
-	•	Directory where speckle datasets will be generated
+	1. Path to the wind-profile file
+	2. Directory where speckle datasets will be generated
 
 HCIPy simulation runs on CPU and may take several hours depending on number of profiles.
 
@@ -85,10 +83,10 @@ atmosphericturbulencedetection/
 (A) Configure config.toml
 
 Set:
-	•	data_dir_ → where the HCIPy .h5 files are stored
-	•	base_dir_ → where model checkpoints will be saved
-	•	loss_strategy → "vicreg" or "mse"
-	•	batch_size, wind_layers, etc.
+	1. data_dir_ → where the HCIPy .h5 files are stored
+	2. base_dir_ → where model checkpoints will be saved
+	3. loss_strategy → "vicreg" or "mse"
+	4. batch_size, wind_layers, etc.
 
 This file fully controls the training pipeline.
 
@@ -97,10 +95,10 @@ This file fully controls the training pipeline.
 `docker compose up multitask_01`
 
 This:
-	•	Loads the dataset
-	•	Applies preprocessing (sqrt, frame diff, normalization, FFT)
-	•	Trains the hybrid pixel–frequency 3D CNN
-	•	Saves the model checkpoint to the location save_dir specified in config.toml
+	1. Loads the dataset
+	2. Applies preprocessing (sqrt, frame diff, normalization, FFT)
+	3. Trains the hybrid pixel–frequency 3D CNN
+	4. Saves the model checkpoint to the location save_dir specified in config.toml
 
 
 ———————————————–
@@ -114,19 +112,19 @@ Edit:
 test_config.toml
 
 Set:
-	•	run_id → the run_id from wandb run for the above trained model
-	•	data_path → path to test dataset
-	•	base_dir → output location for metrics and plots
+	1. run_id → the run_id from wandb run for the above trained model
+	2. data_path → path to test dataset
+	3. base_dir → output location for metrics and plots
 
 Then run:
 
 `docker compose up model_eval_multitask_01`
 
 This will:
-	•	Load the trained model
-	•	Run evaluation on the full test set
-	•	Compute R² for speed and direction
-	•	Generate scatter plots and logs
+	1. Load the trained model
+	2. Run evaluation on the full test set
+	3. Compute R² for speed and direction
+	4. Generate scatter plots and logs
 
 Outputs are written to the directory specified in test_config.toml.
 
