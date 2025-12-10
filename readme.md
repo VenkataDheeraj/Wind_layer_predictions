@@ -36,7 +36,7 @@ This will automatically generate a text file containing wind-profile metadata fo
 
 ———————————————–
 
-Prepare Wind Profiles for HCIPy Simulation
+Data Generation
 
 ———————————————–
 
@@ -72,7 +72,7 @@ This will generate .h5 speckle files under the output directory you configured.
 
 ———————————————–
 
-Model Training Pipeline
+Model Training
 
 ———————————————–
 
