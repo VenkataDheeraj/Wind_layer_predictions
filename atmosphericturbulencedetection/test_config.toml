@@ -1,0 +1,9 @@
+[test_params]
+data_dir = "/scratch/SDAPSE/python_test_data/hawaii_2/"
+base_dir = "/scratch/SDAPSE/results/"
+cuda = 1
+batch_size = 10
+threshold=10000
+
+run_id = "gsu-dmlab/SDAPSE/kpbtrhj3"
+download_model = 1

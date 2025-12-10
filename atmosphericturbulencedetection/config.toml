@@ -1,0 +1,45 @@
+[train_params]
+data_dir = "/data/SDAPSE/python_train_data/layer_1/batch_uni"
+base_dir = "/data/SDAPSE/multi_task_learner/cnn_layer2_all_loc"
+cuda = 1
+batch_size = 5
+retrain_niter = 1
+cur_niter = 5
+wind_layers = 1
+# loss_type 0=sum; 1=alternating
+loss_type = 0
+description = 'CNN model vicreg loss 64 frames'
+data_normalization = 'modified_frame_difference'
+loss_strategy = 'vicreg'
+domain = 'hybrid2' # hybrid for mid-fusion, hybrid2 for early fusion, hybrid3 for late fusion
+l1_lambda = 0.00001
+
+[model]
+type = 'cnn'
+latent_dims = 1000
+lr = 0.001
+benchmark = true
+beta_1 = 1
+beta_2 = [800, 800] # each wind layer 2 values
+# load_model = '2025_2_11_21_28/model_batch_1_sum_vicreg_after_training.pth'
+#regressor_folder_path = '/data/SDAPSE/regressor/outputs/fno_ae_model/layer_4/latent_1000_data_slice'
+#load_regressor = 'model_after_training.pth'
+load_model = ''
+load_regressor = ''
+regressor_folder_path = ''
+fc2_nodes = 4000
+
+# datagen mode can be one of [default, slice, skip]
+[datagen]
+mode = 'slice'
+skip_step = 10
+frames = 64
+normalize = true
+
+# regressor type can be one of [mlp, resnet]
+[regressor]
+type = 'resnet'
+
+[wandb]
+project = "SDAPSE"
+entity = "gsu-dmlab"

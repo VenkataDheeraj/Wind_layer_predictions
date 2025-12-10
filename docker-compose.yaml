@@ -1,0 +1,58 @@
+version: "3.8"
+services:
+  hcipy_speckle:
+    container_name: sdapse_hcipy_speckle
+    build: 
+        context: ./hcipyspeckle/
+        dockerfile: datagen.dockerfile
+    volumes:
+      - ./hcipyspeckle/:/app
+      - /path/to/your/dataset/:/app/dataset/
+    ipc: host
+    tty: true
+    stdin_open: true
+    command: 'python main.py --wind-file=<path to wind profile file> --max-workers=16'
+
+  multitask_01:
+    container_name: sdapse_multitask_01
+    build: ./atmosphericturbulencedetection/
+    volumes:
+      - ./atmosphericturbulencedetection/:/app
+      - /data/SDAPSE/:/data/SDAPSE/
+    ipc: host
+    tty: true
+    stdin_open: true
+    environment:
+      - WANDB_API_KEY=<your WANDB api key>
+      - WANDB_PROJECT=<your WANDB project>
+      - WANDB_ENTITY=<your WANDB entity>
+    command: 'python train_hybrid.py --ngpu 0 --batch-num 1'
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  model_eval_multitask_01:
+    container_name: sdapse_model_eval_multitask_01
+    build: ./atmosphericturbulencedetection/
+    volumes:
+      - ./atmosphericturbulencedetection/:/app
+      - /data/SDAPSE/:/data/SDAPSE/
+    ipc: host
+    tty: true
+    stdin_open: true
+    environment:
+      - WANDB_API_KEY=<your WANDB api key>
+      - WANDB_PROJECT=<your WANDB project>
+      - WANDB_ENTITY=<your WANDB entity>
+    command: 'python model_eval.py --ngpu 0'
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
