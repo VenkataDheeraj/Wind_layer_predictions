@@ -4,7 +4,9 @@ This repository contains all components required to generate synthetic atmospher
 
 The workflow consists of three major stages:
 	1.	Wind Profile Generation
+	
 	2.	Speckle Image Simulation (HCIPy) via Docker
+	
 	3.	Model Training & Evaluation (Multitask CNN) via Docker
 
 Follow the steps below to reproduce the results in our report.
